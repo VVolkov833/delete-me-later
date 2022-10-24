@@ -172,8 +172,9 @@ function meta_box_layout() {
     ]);
     $select( (object) [
         'name' => 'image-bias-v',
-        'placeholder' => 'Select Image Offset from top / bottom. Default is center',
+        'placeholder' => 'Select Image Offset from top / bottom. Default is middle (50%)',
         'options' => [
+            '0' => '0%',
             '10' => '10%',
             '20' => '20%',
             '30' => '30%',
