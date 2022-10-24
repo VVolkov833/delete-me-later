@@ -42,7 +42,7 @@ add_action( 'add_meta_boxes', function() {
 function meta_box_layout() {
     global $post;
 
-    $textarea = function ($a) {
+    $cssarea = function ($a) {
         ?>
     <textarea
         name="<?php echo FCPAR['prefix'] . $a->name ?>"
@@ -232,7 +232,7 @@ add_shortcode( 'anti-revolution-header', function() {
     ob_start();
 
     ?>
-    <style type="text/css">
+    <style type="text/css"><?php ob_start() // buffer to minify css ?>
     <?php include_once( __DIR__ . '/style.css' ) ?>
     <?php if ( isset( $values[ $p . 'image-position' ] ) ) { ?>
         .fcpar-image img {
@@ -245,7 +245,12 @@ add_shortcode( 'anti-revolution-header', function() {
             justify-content:<?php echo $position[1] ?>;
         }
     <?php } ?>
-    </style>
+    <?php
+        $css = ob_get_contents();
+        ob_end_clean();
+        echo minify( $css );
+        unset( $css );
+    ?></style>
     <section class="fcpar-hero">
         <<?php echo $tag ?> class="fcpar-headline">
             <?php echo isset( $values[ $p.'headline' ] ) ? $values[ $p.'headline' ][0] : '' ?>
@@ -265,5 +270,15 @@ add_shortcode( 'anti-revolution-header', function() {
     return $content;
 });
 
+function minify ($css) {
+    $css = preg_replace( '/\/\*(?:.*?)*\*\//', '', $css ); // remove comments
+    $css = preg_replace( '/\s+/', ' ', $css ); // one-line & only single speces
+    $css = preg_replace( '/ ?([\{\};:\>\~\+]) ?/', '$1', $css ); // remove spaces
+    $css = preg_replace( '/\+(\d)/', ' + $1', $css ); // restore spaces in functions
+    $css = preg_replace( '/(?:[^\}]*)\{\}/', '', $css ); // remove empty properties
+    $css = str_replace( [';}', '( ', ' )'], ['}', '(', ')'], $css ); // remove last ; and spaces
+    // ++can also remove 0 from 0.5
+    return trim( $css );
+}
+
 //++ excape the printing properly
-//++ minify the css
