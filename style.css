@@ -1,0 +1,60 @@
+.fcpar-hero, .fcpar-hero * {
+    margin: 0;
+    padding: 0;
+    line-height:1.2;
+}
+.fcpar-hero, .fcpar-hero > * {
+    position:relative;
+    box-sizing:border-box;
+    z-index:1;
+}
+.fcpar-hero {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-end;
+    position:relative;
+    width:100%;
+    height:250px;
+    padding:15px 25px;
+    background:linear-gradient(135deg, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#353535 100%);
+}
+
+.fcpar-image,
+.fcpar-hero::before {
+    position: absolute;
+    left: 0; top: 0; bottom: 0; right: 0; z-index: 0;
+    overflow:hidden;
+}
+.fcpar-image img {
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.fcpar-headline {
+    flex:0 1 0%;
+    margin-bottom:20px;
+    font-size:40px;
+    font-weight:700;
+    color:#fff;
+    text-shadow: rgb(0 0 0 / 50%) 0px 2px 5px;
+}
+
+.fcpar-description {
+    flex:0 1 0%;
+    padding:3px 9px;
+    font-size:20px;
+    font-weight:700;
+    color:#fff;
+    background-color:#888;
+    text-shadow: rgb(0 0 0 / 50%) 0px 2px 5px;
+}
+
+.fcpar-hero::before {
+    content:'';
+    background-color:#000000bb;
+    transform:scale(0.6) rotate(176deg) translate(31%, -16%) skew(-7deg, 0deg);
+    filter: blur(7px);
+}
