@@ -15,7 +15,7 @@
     justify-content:flex-end;
     position:relative;
     width:100%;
-    height:250px;
+    min-height:250px;
     padding:15px 25px;
     background:linear-gradient(135deg, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#353535 100%);
 }

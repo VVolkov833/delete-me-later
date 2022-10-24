@@ -3,7 +3,7 @@
 /*
 Plugin Name: FCP Anti Revolution
 Description: This plugin by FirmCatalyst is here instead of Slider Revolution, as it has holes
-Version: 0.0.1
+Version: 0.0.2
 Requires at least: 4.7
 Requires PHP: 7.0.0
 Author: Firmcatalyst, Vadim Volkov
@@ -165,11 +165,27 @@ function meta_box_layout() {
         'name' => 'image-position',
         'placeholder' => 'Select Image Position',
         'options' => [
-            'center top' => '&#8657;&nbsp;&nbsp;&nbsp; Top',
-            'center center' => '&#9632;&nbsp;&nbsp;&nbsp; Middle',
-            'center bottom' => '&#8659;&nbsp;&nbsp;&nbsp; Bottom',
+            'top' => '&#8657;&nbsp;&nbsp;&nbsp; Top',
+            'bottom' => '&#8659;&nbsp;&nbsp;&nbsp; Bottom',
         ],
         'value' => get_post_meta( $post->ID, FCPAR['prefix'] . 'image-position' )[0],
+    ]);
+    $select( (object) [
+        'name' => 'image-bias-v',
+        'placeholder' => 'Select Image Offset from top / bottom. Default is center',
+        'options' => [
+            '10' => '10%',
+            '20' => '20%',
+            '30' => '30%',
+            '40' => '40%',
+            '50' => '50%',
+            '60' => '60%',
+            '70' => '70%',
+            '80' => '80%',
+            '90' => '90%',
+            '100' => '100%',
+        ],
+        'value' => get_post_meta( $post->ID, FCPAR['prefix'] . 'image-bias-v' )[0],
     ]);
 
 
@@ -204,7 +220,7 @@ add_action( 'save_post', function( $postID ) {
     $post = get_post( $postID );
     if ( $post->post_type == 'revision' ) { return; }
 
-    $fields = [ 'active', 'headline', 'headline-2', 'headline-tag', 'description', 'texts-position', 'image-position' ];
+    $fields = [ 'active', 'headline', 'headline-2', 'headline-tag', 'description', 'texts-position', 'image-position', 'image-bias-v' ];
 
     foreach ( $fields as $f ) {
         $f = FCPAR['prefix'] . $f;
@@ -223,7 +239,7 @@ add_shortcode( 'anti-revolution-header', function() {
     global $post;
 
     $active = get_post_meta( $post->ID, FCPAR['prefix'].'active' );
-    if ( !isset( $active ) ) { return; }
+    if ( !isset( $active ) || $active[0] === null ) { return; }
 
     $values = get_post_meta( $post->ID );
     $p = FCPAR['prefix'];
@@ -236,7 +252,10 @@ add_shortcode( 'anti-revolution-header', function() {
     <?php include_once( __DIR__ . '/style.css' ) ?>
     <?php if ( isset( $values[ $p . 'image-position' ] ) ) { ?>
         .fcpar-image img {
-            object-position:<?php echo $values[ $p.'image-position' ][0] ?>;
+            object-position: left 50%
+                <?php echo isset( $values[ $p.'image-position' ] ) ? $values[ $p.'image-position' ][0] : 'center' ?>
+                <?php echo isset( $values[ $p.'image-bias-v' ] ) ? $values[ $p.'image-bias-v' ][0].'%' : '' ?>
+            ;
         }
     <?php } ?>
     <?php if ( isset( $values[ $p . 'texts-position' ] ) ) { $position = explode( ' ', $values[ $p . 'texts-position' ][0] ) ?>
