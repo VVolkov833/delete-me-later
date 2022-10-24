@@ -6,7 +6,7 @@
 .fcpar-hero, .fcpar-hero > * {
     position:relative;
     box-sizing:border-box;
-    z-index:1;
+    z-index:2;
 }
 .fcpar-hero {
     display:flex;
@@ -17,14 +17,17 @@
     width:100%;
     min-height:250px;
     padding:15px 25px;
-    background:linear-gradient(135deg, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#353535 100%);
 }
 
 .fcpar-image,
-.fcpar-hero::before {
+.fcpar-hero::before,
+.fcpar-hero::after {
     position: absolute;
     left: 0; top: 0; bottom: 0; right: 0; z-index: 0;
     overflow:hidden;
+}
+.fcpar-image {
+    z-index:1;
 }
 .fcpar-image img {
     width:100%;
@@ -57,4 +60,21 @@
     background-color:#000000bb;
     transform:scale(0.6) rotate(176deg) translate(31%, -16%) skew(-7deg, 0deg);
     filter: blur(7px);
+}
+.fcpar-hero::after {
+    content:'';
+    background:linear-gradient(135deg, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#353535 100%);
+}
+
+/* a shitty exception */
+.avada-row .fcpar-hero {
+    margin-top:-55px;
+    margin-bottom:55px;
+}
+@media (min-width:1060px) {
+    .avada-row .fcpar-hero {
+        margin-bottom:80px;
+        transform: scale(1.1);
+        transform-origin: center top;
+    }
 }
