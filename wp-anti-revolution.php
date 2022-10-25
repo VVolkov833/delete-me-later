@@ -42,7 +42,7 @@ add_action( 'add_meta_boxes', function() {
 function meta_box_layout() {
     global $post;
 
-    $cssarea = function ($a) {
+    $textarea = function ($a) {
         ?>
     <textarea
         name="<?php echo FCPAR['prefix'] . $a->name ?>"
